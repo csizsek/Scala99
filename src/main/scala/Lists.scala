@@ -1,19 +1,23 @@
+import scala.annotation.tailrec
+
 object Lists {
 
-  def last(a: List[Int]): Option[Int] = {
-    a match {
+  @tailrec
+  def last(l: List[Int]): Option[Int] = {
+    l match {
       case Nil => None
       case x :: Nil => Some(x)
       case x :: xs => last(xs)
     }
   }
 
-  def penultimate(a: List[Int]): Option[Int] = {
-    a match {
+  @tailrec
+  def penultimate(l: List[Int]): Option[Int] = {
+    l match {
       case Nil => None
-      case x :: Nil => None
-      case y :: x :: Nil => Some(y)
-      case y :: x :: xs => penultimate(x :: xs)
+      case _ :: Nil => None
+      case x :: _ :: Nil => Some(x)
+      case x :: xs => penultimate(xs)
     }
   }
 
