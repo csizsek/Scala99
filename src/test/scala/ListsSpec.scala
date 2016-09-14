@@ -13,7 +13,7 @@ class ListsSpec extends FlatSpec {
   }
 
   it should "return None for an empty list" in {
-    assert(Lists.last(List()) == None)
+    assert(Lists.last(List()).isEmpty)
   }
 
   behavior of "penultimate"
@@ -27,11 +27,11 @@ class ListsSpec extends FlatSpec {
   }
 
   it should "return None for a list of length one" in {
-    assert(Lists.penultimate(List(1)) == None)
+    assert(Lists.penultimate(List(1)).isEmpty)
   }
 
   it should "return None for an empty list" in {
-    assert(Lists.penultimate(List()) == None)
+    assert(Lists.penultimate(List()).isEmpty)
   }
 
   behavior of "nth"
@@ -47,11 +47,11 @@ class ListsSpec extends FlatSpec {
   }
 
   it should "return None if n is out of bounds" in {
-    assert(Lists.nth(3, List("foo", "bar", "baz")) == None)
+    assert(Lists.nth(3, List("foo", "bar", "baz")).isEmpty)
   }
 
   it should "return None if n negative" in {
-    assert(Lists.nth(-1, List(1, 2, 3)) == None)
+    assert(Lists.nth(-1, List(1, 2, 3)).isEmpty)
   }
 
   behavior of "length"
@@ -121,8 +121,21 @@ class ListsSpec extends FlatSpec {
 
   behavior of "pack"
 
-  it should "pack elements together" in {
-    //assert(Lists.pack(List(1, 1, 2, 3, 3, 3, 4)) == List(List(1, 1), List(2), List(3, 3, 3), List(4)))
+  it should "pack identical elements together" in {
+    assert(Lists.pack(List(1, 1, 2, 3, 3, 3, 4)) == List(List(1, 1), List(2), List(3, 3, 3), List(4)))
+    assert(Lists.pack(List(1, 1, 1, 1)) == List(List(1, 1, 1, 1)))
+    assert(Lists.pack(List(1, 1, 1, 1, 2, 1, 1, 1, 1)) == List(List(1, 1, 1, 1), List(2), List(1, 1, 1, 1)))
+  }
+
+  it should "not pack different elements together" in {
+    assert(Lists.pack(List(1, 2, 3, 4)) == List(List(1), List(2), List(3), List(4)))
+    assert(Lists.pack(List(1)) == List(List(1)))
+  }
+
+  behavior of "encode"
+
+  it should "encode identical element runs" in {
+    assert(Lists.encode(List(1, 1, 2, 3, 3, 3, 4)) == List((2, 1), (1, 2), (3, 3), (1, 4)))
   }
 
 }
