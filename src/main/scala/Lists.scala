@@ -21,16 +21,14 @@ object Lists {
 
   // P-03
   @tailrec
-  def nth(n: Int, l: List[Any]): Option[Any] = {
+  def nth(n: Int, l: List[Any]): Option[Any] =
     if (n < 0) None
-    else {
+    else
       (n, l) match {
         case (_, Nil) => None
         case (0, x :: xs) => Some(x)
-        case (k, x :: xs) => nth(k-1, xs)
+        case (k, x :: xs) => nth(k - 1, xs)
       }
-    }
-  }
 
   // P-04
   def length(l: List[Any]): Int = {
