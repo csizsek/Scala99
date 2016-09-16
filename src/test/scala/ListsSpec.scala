@@ -5,7 +5,7 @@ class ListsSpec extends FlatSpec {
   behavior of "last"
 
   it should "return the last element of a list longer than one" in {
-    assert(Lists.last(List(1, 2, 3)).get == 3)
+    assert(Lists.last(List(1, "foo", 3)).get == 3)
   }
 
   it should "return the only element of a list of length one" in {
@@ -136,6 +136,26 @@ class ListsSpec extends FlatSpec {
 
   it should "encode identical element runs" in {
     assert(Lists.encode(List(1, 1, 2, 3, 3, 3, 4)) == List((2, 1), (1, 2), (3, 3), (1, 4)))
+  }
+
+  behavior of "encodeModified"
+
+  it should "encode identical element runs of length two or more" in {
+    assert(Lists.encodeModified(List(1, 1, 2, 3, 3, 3, 4)) == List((2, 1), 2, (3, 3), 4))
+  }
+
+  behavior of "decode"
+
+  it should "decode encoded element runs" in {
+    assert(Lists.decode(List((2, 1), (1, 2), (3, 3), (1, 4))) == List(1, 1, 2, 3, 3, 3, 4))
+  }
+
+  behavior of "duplicate"
+
+  it should "duplicate all elements" in {
+    assert(Lists.duplicate(List(1, 2, 3, 1)) == List(1, 1, 2, 2, 3, 3, 1, 1))
+    assert(Lists.duplicate(List()) == List())
+    assert(Lists.duplicate(List("foo")) == List("foo", "foo"))
   }
 
 }

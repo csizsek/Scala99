@@ -12,4 +12,12 @@ class ArithmeticSpec extends FlatSpec {
     assert((new S99Int(1023)).isPrime())
   }
 
+  /*
+  it should "return false for non-primes" in {
+    assert(!(new S99Int(1)).isPrime())
+    assert(!(new S99Int(0)).isPrime())
+    assert(!(new S99Int(6)).isPrime())
+    assert(!(new S99Int(-5)).isPrime())
+  }
+  */
 }
