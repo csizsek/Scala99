@@ -30,21 +30,18 @@ object Lists {
   }
 
   // P-04
-  def length[T](l: List[T]): Int = {
-
-    @tailrec
-    def len[S](n: Int, l: List[S]): Int = l match {
-      case Nil => n
-      case x :: xs => len(n + 1, xs)
-    }
-
-    len(0, l)
+  @tailrec
+  def length[T](l: List[T], n: Int = 0): Int = l match {
+    case Nil => n
+    case x :: xs => length(xs, n+1)
   }
 
   // P-05
-  def reverse[T](l: List[T]): List[T] = l match {
-    case Nil => Nil
-    case x :: xs => reverse(xs) :+ x
+  @tailrec
+  def reverse[T](l: List[T], reversed: List[T] = List()): List[T] = l match {
+    case Nil => reversed
+    case x :: Nil => x :: reversed
+    case x :: xs => reverse(xs, x :: reversed)
   }
 
   // P-06
@@ -130,6 +127,39 @@ object Lists {
     case Nil => Nil
     case x :: xs => x :: x :: duplicate(xs)
   }
+
+  // P-15
+  def duplicateN[T](n: Int, l: List[T]): List[T] = {
+
+    def multiples(k: Int, t: T): List[T] = k match {
+      case 0 => Nil
+      case m => t :: multiples(m-1, t)
+    }
+
+    l match {
+      case Nil => Nil
+      case x :: xs => multiples(n, x) ++ duplicateN(n, xs)
+    }
+  }
+
+  // P-16
+  def drop[T](n: Int, l: List[T], k: Int = 1): List[T] = l match {
+    case Nil => Nil
+    case x :: xs =>
+      if (k == n) drop(n, xs, 1)
+      else x :: drop(n, xs, k+1)
+  }
+
+  // P-17
+  @tailrec
+  def split[T](n: Int, l: List[T], k: List[T] = List()): (List[T], List[T]) = (n, l, k) match {
+    case (0, _, _) => (k, l)
+    case (_, Nil, _) => (k, l)
+    case (i, x, y) => split(i-1, x.tail, y :+ x.head)
+  }
+
+  // P-18
+  def slice[T](s: Int, e: Int, l: List[T]): List[T] = ???
 
 }
 

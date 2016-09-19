@@ -158,4 +158,33 @@ class ListsSpec extends FlatSpec {
     assert(Lists.duplicate(List("foo")) == List("foo", "foo"))
   }
 
+  behavior of "duplicateN"
+
+  it should "duplicate all elements N times" in {
+    assert(Lists.duplicateN(2, List(1, 2, 3, 1)) == List(1, 1, 2, 2, 3, 3, 1, 1))
+    assert(Lists.duplicateN(1, List(1, 2)) == List(1, 2))
+    assert(Lists.duplicateN(3, List("foo", "bar", "baz")) == List("foo", "foo", "foo", "bar", "bar", "bar", "baz", "baz", "baz"))
+    assert(Lists.duplicateN(0, List(1, 2, 3)) == List())
+    assert(Lists.duplicateN(5, List()) == List())
+  }
+
+  behavior of "drop"
+
+  it should "drop every Nth element" in {
+    assert(Lists.drop(2, List(1, 2, 1, 2)) == List(1, 1))
+    assert(Lists.drop(3, List(1, 2, 3, 1, 2, 3)) == List(1, 2, 1, 2))
+    assert(Lists.drop(1, List(1, 2, 1, 2)) == List())
+    assert(Lists.drop(10, List(1, 2, 1, 2)) == List(1, 2, 1, 2))
+  }
+
+  behavior of "split"
+
+  it should "split the list at the specified place" in {
+    assert(Lists.split(2, List(1, 2, 3, 4)) == (List(1, 2), List(3, 4)))
+    assert(Lists.split(1, List(1, 2, 3, 4, 5, 6)) == (List(1), List(2, 3, 4, 5, 6)))
+    assert(Lists.split(0, List(1, 2, 3, 4)) == (List(), List(1, 2, 3, 4)))
+    assert(Lists.split(2, List()) == (List(), List()))
+  }
+
+
 }
